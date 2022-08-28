@@ -1,8 +1,8 @@
 # how to deploy a model
 -open a jupyter notebook or python file: 
 
-import pandas as pd
-import requests
+import pandas as pd/
+import requests/
 import json
 
 
