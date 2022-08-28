@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import os
 import json
+import pandas as pd
   
 app = Flask(__name__)
 api = Api(app)
@@ -22,18 +23,31 @@ def get_prediction(score):
     score float: model proba
     return str: negative or positive
     '''
-    return 'Positive' if score >=0.91 else 'Negative'
+    return 'Robots' if score >=0.85 else 'Human'
 
+def predict(context):
+        """
+        context: dictionary format {'cost':'$300k'... etc}
+        return np.array
+        """
+        num_predictions = 1 #len(context[features[0]])
+        X = pd.DataFrame(context,index=range(num_predictions))
+        y_prob_pred = model.predict_proba(X)
+        #float(round(y_prob_pred[0][1], 3) )
+        return round(float(y_prob_pred[0][1]),3)
+    
 class PredictUser(Resource):
     def get(self):
         # use parser and find the user's query
         args = parser.parse_args()
         user_query = args['query']
         # json needs to replace single quote with double 
-        predict_proba = model.predict_proba(json.loads(user_query.replace("\'", "\"")))
+        #X = json.loads(user_query.replace("\'", "\""))
+        proba = predict(json.loads(user_query.replace("\'", "\"")))
+        
         results = {'results':[]}
-        for proba in predict_proba[:,1]:
-            results['results'].append({'label': get_prediction(proba), 'ModelScore':proba})      
+        #results['results'].append({'label': proba, 'ModelScore':1})  
+        results['results'].append({'label': get_prediction(proba), 'ModelScore':proba})      
         return results
 
 
