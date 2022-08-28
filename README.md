@@ -1,7 +1,6 @@
-# Auction_robot_vs_human_api
 # how to deploy a model
+-open a jupyter notebook or python file: 
 
-# open a jupyter notebook or python file: 
 import pandas as pd
 import requests
 import json
