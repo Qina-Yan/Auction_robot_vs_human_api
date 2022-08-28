@@ -10,7 +10,7 @@ features = list(df.columns)\
 target = 'outcome'\
 features.remove(target)\
 features.remove('Unnamed: 0')\
-test_row= df[features].iloc[2,:].to_dict()\
+test_row= df[features].iloc[2,:].to_dict()
 
 d = {'query':test_row}\
 url = 'http://INSERT_PUBLIC_IP:5000/' \
